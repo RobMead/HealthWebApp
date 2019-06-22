@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container pt-5">
+  <p></p>
+  <p>Delete record {{workout_diary.exercise_name}} from {{workout_diary.workout_date}}?</p>
+  <p></p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" class ='btn btn-danger'value="Delete">
+    <a href="{% url 'workouts_m' %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

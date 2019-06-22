@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container">
+    <p></p>
+    {% if request.user.username %}
+      <h4>Workout history by muscle for {{request.user.username}}</h4>
+    {% else %}
+      <h4>Workout history by muscle for Rob (default)</h4>
+    {% endif %}
+
+    <p class='py-2'></p>
+    <table class="table">
+      <thead>
+        <tr>
+            <th>Muscle</th>
+            <th>Date</th>
+            <th>Exercise</th>
+            <th class='px-0'>Wght</th>
+            <th class='px-1'>Reps</th>
+            <th class='pl-0 pr-4'></th>
+            <th class='px-0'>Wght</th>
+            <th class='px-1'>Reps</th>
+            <th class='pl-0 pr-4'></th>
+            <th class='px-0'>Wght</th>
+            <th class='px-1'>Reps</th>
+            <th class='pl-0 pr-4'></th>
+            <th class='px-0'>Wght</th>
+            <th class='px-1'>Reps</th>
+            <th class='pl-0 pr-4'></th>
+            <th class='px-0'>Wght</th>
+            <th class='px-1'>Reps</th>
+            <th class='pl-0 pr-4'></th>
+
+        </tr>
+      </thead>
+        <tbody>
+          {% regroup workout_list by exercise_name_id__muscle_worked_id__muscle_worked as workouts_by_muscle %}
+            {% for muscle, workouts_for_muscle in workouts_by_muscle %}
+              {% regroup workouts_for_muscle by workout_date as workouts_by_date %}
+                {% for date, workouts_for_date in workouts_by_date %}
+                  {% regroup workouts_for_date by exercise_name_id__exercise_name as workouts_for_date_for_exercise %}
+                    {% for exercise, workouts in workouts_for_date_for_exercise %}
+                    <tr>
+                      <td>{{muscle}}</td>
+                      <td>{{date|date:"D j M"}}</td>
+                      <td>{{exercise}}</td>
+                        {% for workout in workouts %}
+                          <td class='px-0'>{{workout.weight}}</td>
+                          <td class='px-1'>{{workout.reps}}</td>
+                          <td class='pl-0 pr-4'>
+                            <a href="{% url 'delete' pk=workout.id %}">
+                              <i class="fa fa-remove" style="color:red"></i>
+                            </a>
+                          </td>
+                        {% endfor %}
+                  {% endfor %}
+                {% endfor %}
+                </tr>
+              {% endfor %}
+        </tbody>
+      </table>
+    </div>
+{% endblock %}

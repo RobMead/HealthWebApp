@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block body_block %}
+<div class="container">
+    <h4>Comparing sets week on week </h4>
+    <p class='py-2'></p>
+    <table class="table">
+      <thead>
+        <tr>
+            <th>Muscle</th>
+            <th>Sets Current Week</th>
+            <th>Sets Previous Week</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for muscle, sets in weekly_sets.items %}
+        <tr>
+          <td>{{muscle}}</td>
+          <td>{{sets.0}}</td>
+          <td>{{sets.1}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+</div>
+{% endblock %}

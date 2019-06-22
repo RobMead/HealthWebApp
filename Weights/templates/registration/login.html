@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block body_block %}
+<form class="" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" name="" value="Login">
+  {% if request.GET.redirect_to %}
+    <input type="hidden" name="next" value="{{request.GET.redirect_to}}">
+  {% else %}
+    <input type="hidden" name="next" value="{% url next %}">
+  {% endif %}
+</form>
+{% endblock %}
